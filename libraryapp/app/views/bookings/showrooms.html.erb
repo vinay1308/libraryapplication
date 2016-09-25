@@ -1,0 +1,94 @@
+<h3>Rooms matching your preference</h3>
+
+<table>
+  <thead >
+  <tr>
+    <th>Room id </th>
+    <th>Building </th>
+    <th>Size </th>
+    <th colspan="3"></th>
+  </tr>
+  </thead>
+
+  <tbody>
+  <% @rooms.each do |room| %>
+      <tr>
+        <td><%= room.room_id %></td>
+        <td><%= room.building %></td>
+        <td><%= room.size %></td>
+      </tr>
+  <% end %>
+  </tbody>
+</table>
+</br>
+
+<h3>Bookings for available rooms on requested date </h3>
+
+<% @rooms.each do |room| %>
+    <p>Bookings for room <%= room.room_id %> </p>
+<table>
+  <thead >
+  <tr>
+    <th>start</th>
+    <th>end </th>
+    <th>room id </th>
+    <th colspan="3"></th>
+  </tr>
+  </thead>
+
+  <tbody>
+
+  <% @existing.each do |existing| %>
+  <% if room.room_id == existing.room_id %>
+      <tr>
+        <td><%= existing.start %></td>
+        <td><%= existing.end %></td>
+        <td><%= existing.room_id %></td>
+      </tr>
+  <% end %>
+  <% end %>
+
+  </tbody>
+</table>
+    </br>
+<% end %>
+
+</br>
+<h3> Enter Booking details </h3>
+</br>
+
+<div class="row">
+  <div class="col-md-3 col-md-offset-0">
+    <%= form_for(@booking, url: bookroom_path) do |f| %>
+
+        <div class="field">
+          <%= f.label :email %>
+          <%= f.text_field :email, :value => session[:email]%>
+        </div>
+
+        <div class="field">
+          <%= f.label :start %>
+          <%= f.datetime_select :start %>
+        </div>
+
+        <div class="field">
+          <%= f.label :end %>
+          <%= f.datetime_select :end %>
+        </div>
+
+        <div class="field">
+          <%= f.label :room_id %>
+          <%= f.number_field :room_id %>
+        </div>
+
+        <div class="field">
+          <%= f.label :team %>
+          <%= f.text_area :team %>
+        </div>
+
+        <div class="actions">
+          <%= f.submit %>
+        </div>
+    <% end %>
+  </div>
+</div>
